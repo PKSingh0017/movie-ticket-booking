@@ -1,0 +1,198 @@
+{% load static %}
+<html>
+  <head>
+    <script type="text/javascript" src="{% static 'nimmi/js/jquery-2.1.4.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'nimmi/js/underscore-min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'nimmi/js/backbone.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'nimmi/css/bootstrap.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'nimmi/css/style.css' %}" />
+  </head>
+  <title>Movie Seat Reservation</title>
+  <body>
+    <div class="myContainer">
+      <img src="{% static 'nimmi/img/cinema-4609877__480.webp' %}" height="500px" width="100%" alt="banner">
+      <div class="centered"><h1 style="color: white; text-shadow: 0px 1px, 1px 0px, 1px 1px;
+        font-weight: bolder; font-size: 50px;">Welcome to Online Movie Ticket Booking.</h1></div>
+      <div class="text-center mt-5 mb-5">
+        <label id="title"><h1 style="color: white;">ℕ𝕠𝕨 ℙ𝕝𝕒𝕪𝕚𝕟𝕘</h1></label>
+      </div>
+      <div class="container" style="margin-top: 25px;">
+        <div class="row d-flex justify-content-center">
+          <div style="margin-left: auto; margin-right: auto; width: 50%;">
+            <input type="text" class="form-control" id="filter" placeholder="Search Movies..." >
+          </div>
+        </div>
+        <br>
+        <br>
+        <div class="row justify-content-around text-center">
+          <div id="p"></div>
+          <ul id="movies">
+            {% for movie in all_movies %}
+            <li>
+              <div class="col-md-4 col-sm-12 movie">
+                <a href="https://g.co/kgs/HDpqW8" target="_blank">
+                  <img src="{{movie.image.url}}" class ="moviepic" style="max-width: 250px" height="400px" 
+                    alt="{{movie.name}}"/>
+                </a>
+                <h3>{{movie.name}}</h3>
+              </div>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+      <hr style="color: whitesmoke; width: 90%; margin-top: 90px;">
+      <div class="text-center mt-5 mb-5">
+        <label id="title"><h1>𝔹𝕠𝕠𝕜 𝕋𝕚𝕔𝕜𝕖𝕥</h1></label>
+      </div>
+      
+      <form class="form-inline selectionForm">
+        <div class="form-group required">
+          <label for="name" style="font-size: 16px;">Name:</label>
+          <input
+            type="text"
+            class="form-control"
+            id="name"
+            placeholder="Jane Doe"
+            required="required"
+          />
+        </div>
+        <div class="form-group required">
+          <label for="seats" style="font-size: 16px;">Number Of Seats:</label>
+          <input
+            type="number"
+            id="seats"
+            class="form-control"
+            placeholder="3"
+            required="required"
+          />
+        </div>
+        <div class="form-group required">
+          <label for="movie" style="font-size: 16px;">Pick a Movie:</label>
+          <select class="form-control" id="selectedMovie">
+            {% for movie in all_movies %}
+              <option value="{{movie.name}}">{{movie.name}} (Rs {{movie.price}}/-) </option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="text-center">
+          <button
+            type="button"
+            class="btn btn-lg submitBtn"
+            style="background-color: red; color: white;"
+            id="submitSelection"
+          >
+            Start Selecting
+          </button>
+        </div>
+        <div class="text-center">
+          <div style="color:red"><label class="error"></label></div>
+        </div>
+      </form>
+
+      <div class="screen-ui container">
+        <div id="screen">
+        </div>
+
+        <table class="table" id="table-screen">
+          <thead id="screen-head">
+            <tr>
+              <script type="text/template" id="table-screen-header">
+                <% _.each(_.range(0,columns+1),function(item){ %>
+                  <% if(item==0) {%>
+                          <th></th>
+                        <% } else {%>
+                          <th><%= item %></th>
+                        <% } %>
+                <% }) %>
+              </script>
+            </tr>
+          </thead>
+          <tbody id="screen-body">
+            <script type="text/template" id="table-screen-body">
+              <% _.each(rows,function(row){ %>
+                <tr id='table-screen-row'>
+                  <td><%=row%></td>
+                  <% _.each(_.range(1,columns+1),function(column){ %>
+                    <% var id=(_.indexOf(rows,row)*columns)+column; 
+                        var reservedSeats=JSON.parse(localStorage.getItem('ReservedSeats')); 
+                        if(reservedSeats!=null && _.indexOf(reservedSeats,String(id))!=-1) {%>
+                            <td><img src="{% static 'nimmi/img/reserved-seat.png' %}" class="reserved-seat" id="<%=id%>"/></td>
+                          <% }else {%>
+                            <td><img src="{% static 'nimmi/img/empty-seat.png' %}" class="empty-seat" id="<%=id%>"/></td>
+                          <% }}) %>
+                </tr>
+              <% }) %>
+            </script>
+          </tbody>
+        </table>
+
+        <div class="text-center">
+          <button
+            type="button"
+            class="btn btn-lg submitBtn"
+            style="background-color: red; color: white;"
+            id="confirmSelection"
+          >
+            Confirm Selection
+          </button>
+          <div class="screen-map">
+            <label for="empty-seat-map">Selected Seat</label>
+            <img
+              src="{% static 'nimmi/img/booked-seat.png' %}"
+              height="15px"
+              width="auto"
+              class="booked-seat-map"
+              id="booked-seat-map"
+            />
+            <br />
+            <label for="">Reserved Seat</label>
+            <img
+              src="{% static 'nimmi/img/reserved-seat.png' %}"
+              height="15px"
+              width="auto"
+              class="reserved-seat-map"
+              id="reserved-seat-map"
+            />
+            <br />
+            <label for="">Empty Seat</label>
+            <img
+              src="{% static 'nimmi/img/empty-seat.png' %}"
+              height="15px"
+              width="auto"
+              class="empty-seat-map"
+              id="empty-seat-map"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="table-responsive" style="margin-bottom: 80px;">
+        <table class="table table-bordered" style="margin-left: auto; margin-right: auto;">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Number of Seats</th>
+              <th>Movie Name</th>
+              <th>Seats</th>
+              <th>Total Price</th>
+            </tr>
+          </thead>
+          <tbody id="ticket-sold-info">
+            <script type="text/template" id="table-ticket-info">
+              <% _.each(items,function(item){%>
+                <tr>
+                  <td><%-item.names%></td>
+                  <td><%-item.numbers%></td>
+                  <td><%-item.movienames%></td>
+                  <td><%-item.seats%></td>
+                  <td><%-item.totalprices%></td>
+                </tr>
+              <%})%>
+            </script>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </body>
+  <script type="text/javascript" src="{% static 'nimmi/js/script.js' %}"></script>
+</html>

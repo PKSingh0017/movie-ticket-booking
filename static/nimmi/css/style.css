@@ -1,0 +1,86 @@
+body {
+	background-color: black;
+	color: white;
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.centered {
+	position: absolute;
+	top: 40%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+.moviepic {
+	border: 1px solid white;
+}
+
+ul {
+	list-style: none;
+}
+
+.submitBtn{
+	margin-top:50px;
+}
+.form-inline{
+	margin-top: 50px;
+}
+.form-group{
+	margin-left:80px;
+}
+.table-responsive{
+	margin-top: 50px;
+}
+#title{
+	font-size: 20px;
+	margin-top: 50px;
+}
+.container {
+	perspective: 1000px;
+}
+#screen {
+	text-align: center;
+	background-color: #fff;
+	height: 100px;
+	width: 80%;
+	margin: 15px auto;
+	transform: rotateX(-25deg);
+	box-shadow: 0 3px 10px rgba(255, 255, 255, 0.7);
+  }
+
+#table-screen{
+	margin-top: 40px;
+	margin-left:auto;
+	margin-right: auto;
+	border-spacing: 2px;
+  	border-collapse: separate;
+}
+.table {
+	width: 80%;
+}
+#table-screen-row{
+	margin-top:10px;
+}
+th {
+	padding: 1px;
+}
+
+.screen-map{
+	margin-left: 50%;
+	margin-top:-50px;
+}
+.reserved-seat{
+	height: 15px;
+	width: auto;
+}
+.empty-seat{
+	cursor: pointer;
+	height: 15px;
+	width: auto;
+}
+.booked-seat{
+	height: 15px;
+	width: auto;
+	cursor: pointer;
+	content: url('../img/booked-seat.png');
+}

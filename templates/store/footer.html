@@ -1,0 +1,48 @@
+ {% load static %}
+
+<!-- ======= Footer ======= -->
+<footer id="footer">
+    <div class="container">
+        <h3><img href="/" src="{% static 'img/logo.svg' %}" style="height: 75px;width: 75px;" alt="logo" class="shadow-1-strong"></h3>
+        
+        <div class="row">
+            <div class="col-lg-3 col-md-6 footer-links">
+            </div>
+            <div class="col-lg-3 col-md-6 footer-links">
+                <h4>Useful Links</h4>
+            </div>
+            <div class="col-lg-3 col-md-6 footer-links">
+                <h5>Subscribe to our Newsletter</h5>
+                <form action="/" method="post">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="input-group mb-3 mt-4"> <input type="text" class="form-control" placeholder="Enter email" name="subscriber_email" aria-label="Recipient's username" aria-describedby="button-addon2"> <button class="btn btn-outline-warning" type="submit" id="button-addon2">Subscribe</button> </div>
+                    </div>
+                </form>
+                <br>
+                <div class="social-links">
+                    <a target="blank" href="{{SocialMedia.links.twitter}}" class="twitter"><i class="bx bxl-twitter"></i></a>
+                    <a target="blank" href="{{SocialMedia.links.facebook}}" class="facebook"><i class="bx bxl-facebook"></i></a>
+                    <a target="blank" href="{{SocialMedia.links.instagram}}" class="instagram"><i class="bx bxl-instagram"></i></a>
+                    <a target="blank" href="{{SocialMedia.links.linkedin}}" class="linkedin"><i class="bx bxl-linkedin"></i></a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 footer-links">
+            </div>
+        </div>
+        <br>
+        
+        <div class="copyright">
+            &copy; Copyright <strong><span>Foodsense</span></strong>. All Rights Reserved
+        </div>
+        <div class="credits">
+            <!-- All the links in the footer should remain intact. -->
+            <!-- You can delete the links only if you purchased the pro version. -->
+            <!-- Licensing information: https://bootstrapmade.com/license/ -->
+            <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/delicious-free-restaurant-bootstrap-theme/ -->
+            Designed by <a href="https://bagdigital.in/">Business Application Group</a>
+        </div>
+    </div>
+</footer>
+<!-- End Footer -->
+
